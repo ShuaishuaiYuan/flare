@@ -605,7 +605,10 @@ class OTF:
             for ofile in to_copy:
                 # if the file is in a subdirectory like dft/OUTCAR, then copy it out
                 filename = ofile.split("/")[-1]
-                copyfile(ofile, dest + "/" + dt_string + filename)
+                try:
+                    copyfile(ofile, dest + "/" + dt_string + filename)
+                except FileNotFoundError:
+                    f.info(f"\nFile not found: {ofile}\n")
         self.dft_frames.append(self.curr_step)
         self.output.write_wall_time(tic, task="Run DFT")
 
